@@ -28,36 +28,32 @@ export default class MeteorScreen extends Component {
 
     getMeteors = () => {
         axios
-            .get("https://api.nasa.gov/neo/rest/v1/feed?api_key=nAkq24DJ2dHxzqXyzfdreTvczCVOnwJuFLFq4bDZ")
+            .get("https://api.nasa.gov/neo/rest/v1/feed?api_key=1H0pGdQqpAkON8VNIt4sdl7la1H2LXFtwFLdnoL1")
             .then(response => {
                 this.setState({ meteors: response.data.near_earth_objects })
+                console.log(Object.keys(this.state.meteors));
             })
             .catch(error => {
-                Alert.alert(error.message)
+                Alert.alert(error.message);
+                alert(error.message)
             })
     }
-
-    renderItem = ({ item }) => {
-        let meteor = item
+    renderItem = ({item}) => {
+        let meteor = item;
         let bg_img, speed, size;
-        if (meteor.threat_score <= 30) {
-            bg_img = require("../assets/meteor_bg1.png")
-            speed = require("../assets/meteor_speed3.gif")
+        if(meteor.threatScore <=30){
+            bg_img = require("../assets/meteor_bg1.png");
+            speed = require("../assets/meteor_speed1.gif")
             size = 100
-        } else if (meteor.threat_score <= 75) {
-            bg_img = require("../assets/meteor_bg2.png")
-            speed = require("../assets/meteor_speed3.gif")
+        }else if(meteor.threatScore <=75){
+            bg_img = require("../assets/meteor_bg2.png");
+            speed = require("../assets/meteor_speed2.gif")
             size = 150
-        } else {
-            bg_img = require("../assets/meteor_bg3.png")
+        }else{
+            bg_img = require("../assets/meteor_bg3.png");
             speed = require("../assets/meteor_speed3.gif")
             size = 200
         }
-        return (
-            <View>
-              <Text>VISUALIZAR</Text>
-            </View>
-        );
     };
 
     keyExtractor = (item, index) => index.toString();

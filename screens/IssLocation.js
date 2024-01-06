@@ -1,21 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-    Text,
     View,
+    Text,
     StyleSheet,
-    ImageBackground,
-    StatusBar,
     SafeAreaView,
-    Image
-} from 'react-native';
+    Platform,
+    StatusBar,
+    ImageBackground,
+    Alert,
+    Image,
+    Touchable
+} from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import axios from "axios";
+import IssInfo from "./IssInfo";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class IssLocationScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             location: {},
+            isRefresh: false
         };
     }
 
@@ -52,7 +58,14 @@ export default class IssLocationScreen extends Component {
                     <SafeAreaView style={styles.droidSafeArea} />
                     <ImageBackground source={require('../assets/bg.png')} style={styles.backgroundImage}>
                         <View style={styles.titleContainer}>
-                            <Text style={styles.titleText}>Localización de la EEI</Text>
+                            <Text style={styles.titleText}>Localización EEI</Text>
+                        </View>
+                        <View style={styles.refeshContainer}>
+                            <TouchableOpacity style={{ width: 100, height: "100%", alignItems: "center" }} onPress={() =>
+                                this.setState({})
+                            }>
+                                <Image source={require("../assets/refresh_icon.png")} style={{ width: 50, height: 50 }}></Image>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.mapContainer}>
                             <MapView
@@ -71,15 +84,10 @@ export default class IssLocationScreen extends Component {
                                 </Marker>
                             </MapView>
                         </View>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.infoText}>Latitud: {this.state.location.latitude}</Text>
-                            <Text style={styles.infoText}>Longitud: {this.state.location.longitude}</Text>
-                            <Text style={styles.infoText}>Altitud (KM): {this.state.location.altitude}</Text>
-                            <Text style={styles.infoText}>Velocidad (KM/H): {this.state.location.velocity}</Text>
-                        </View>
+                        <IssInfo />
                     </ImageBackground>
                 </View>
-            )
+            );
         }
     }
 }
@@ -101,28 +109,20 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     titleText: {
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: "bold",
         color: "white"
     },
+    refeshContainer: {
+        flex: 0.1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
     mapContainer: {
-        flex: 0.7
+        flex: 0.6
     },
     map: {
         width: "100%",
         height: "100%"
-    },
-    infoContainer: {
-        flex: 0.2,
-        backgroundColor: 'white',
-        marginTop: -10,
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        padding: 30
-    },
-    infoText: {
-        fontSize: 15,
-        color: "black",
-        fontWeight: "bold"
     }
-})
+});
